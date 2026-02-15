@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fozen</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#0d0f14;
+--card:#161a23;
+--accent:#5d8cff;
+--accent2:#00e0b8;
+--text:#e6edf3;
+--muted:#8b949e;
+--border:#2a2f3a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+header{
+padding:2rem 1rem;
+text-align:center;
+border-bottom:1px solid var(--border);
+}
+
+.site-title{
+font-size:2.8rem;
+font-weight:800;
+letter-spacing:4px;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+main{
+flex:1;
+max-width:1100px;
+margin:auto;
+padding:2rem;
+width:100%;
+animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+padding:1.5rem;
+border-radius:16px;
+margin-bottom:1.5rem;
+cursor:pointer;
+transition:.3s ease;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:var(--accent);
+box-shadow:0 0 20px rgba(93,140,255,.15);
+}
+
+.card-title{
+font-weight:600;
+font-size:1.2rem;
+}
+
+.badge{
+background:var(--accent);
+padding:.3rem .7rem;
+border-radius:20px;
+font-size:.75rem;
+margin-left:10px;
+}
+
+.section{
+margin-bottom:3rem;
+}
+
+.section h2{
+margin-bottom:1rem;
+padding-left:12px;
+border-left:4px solid var(--accent);
+font-size:1.4rem;
+}
+
+.section-content p{
+margin-bottom:1rem;
+line-height:1.7;
+color:var(--text);
+}
+
+.section-content img{
+width:100%;
+border-radius:12px;
+margin:1rem 0;
+border:1px solid var(--border);
+}
+
+.code-block{
+position:relative;
+background:#0f141c;
+border:1px solid var(--border);
+padding:1rem;
+border-radius:12px;
+overflow-x:auto;
+margin-top:1rem;
+}
+
+.code-block pre{
+font-family:monospace;
+font-size:.85rem;
+color:var(--accent2);
+white-space:pre-wrap;
+word-wrap:break-word;
+}
+
+.copy-btn{
+position:absolute;
+top:8px;
+right:8px;
+background:var(--accent);
+border:none;
+padding:4px 10px;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:.7rem;
+}
+
+.nav-back{
+margin-bottom:2rem;
+cursor:pointer;
+display:inline-flex;
+align-items:center;
+gap:8px;
+color:var(--accent);
+font-size:.9rem;
+}
+
+footer{
+border-top:1px solid var(--border);
+padding:1.5rem;
+text-align:center;
+font-size:.8rem;
+color:var(--muted);
+}
+
+@media(max-width:768px){
+main{padding:1rem}
+.site-title{font-size:2rem}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1 class="site-title">Fozen</h1>
+</header>
+
+<main id="app"></main>
+
+<footer>© 2026 Fozen — CTF Writeups</footer>
+
+<script>
+
+const data=[
+{
+name:"0xFUN CTF 2026",
+writeups:[
+{
+title:"Guess The Seed",
+category:"Reverse Engineering",
+description:[
+{type:"text",content:"I've created the ultimate number guessing game! No body can guess my completely unpredictable numbers. If you can somehow beat these mathematical odds and guess all 5 numbers correctly. I'll give you the flag. Do you think you can predict the unpredictable?"}
+],
+solution:[
+{type:"text",content:"We Used ltrace Command To Find seed() and rand()"},
+{type:"image",src:"0xFUN_CTF_2026/guess_the_seed_rand.png"},
+{type:"text",content:"When I Reverse The Program I Found That It rand() mod 1000 So I Just Need To Get rand() From ltrace and mod It Whit 1000 To Get The Number And I Just Need To Do This 5 Times To Get The Flag"},
+{type:"image",src:"0xFUN_CTF_2026/guess_the_seed_mod.png"},
+],
+code:`num1 = 000 # Put First rand Here
+num2 = 000 # Put Second rand Here
+num3 = 000 # Put Third rand Here
+num4 = 000 # Put Forth rand Here
+num5 = 000 # Put Fifth rand Here
+
+print(num1 % 1000, end=" ")
+print(num2 % 1000, end=" ")
+print(num3 % 1000, end=" ")
+print(num4 % 1000, end=" ")
+print(num5 % 1000)`,
+flag:"0xfun{W3l1_7h4t_w4S_Fun_4235328752619125}"
+}
+]
+}
+];
+
+const app=document.getElementById("app");
+
+function renderHome(){
+app.innerHTML="";
+data.forEach((comp,i)=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<div class="card-title">${comp.name}</div>
+${animatedIcon()}
+`;
+card.onclick=()=>renderCompetition(i);
+app.appendChild(card);
+});
+}
+
+function renderCompetition(index){
+app.innerHTML=`<div class="nav-back" onclick="renderHome()">${backIcon()} Back</div>`;
+data[index].writeups.forEach((w,i)=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<div class="card-title">
+${w.title}
+<span class="badge">${w.category}</span>
+</div>
+${animatedIcon()}
+`;
+card.onclick=()=>renderWriteup(index,i);
+app.appendChild(card);
+});
+}
+
+function renderWriteup(ci,wi){
+const w=data[ci].writeups[wi];
+app.innerHTML=`<div class="nav-back" onclick="renderCompetition(${ci})">${backIcon()} Back</div>`;
+
+app.appendChild(createSection("Description",w.description));
+const sol=createSection("Solution",w.solution);
+
+const flagBlock=createCodeBlock(w.flag);
+sol.appendChild(flagBlock);
+app.appendChild(sol);
+
+const codeSection=document.createElement("div");
+codeSection.className="section";
+codeSection.innerHTML="<h2>Code</h2>";
+codeSection.appendChild(createCodeBlock(w.code));
+app.appendChild(codeSection);
+}
+
+function createSection(title,content){
+const section=document.createElement("div");
+section.className="section";
+section.innerHTML=`<h2>${title}</h2>`;
+const div=document.createElement("div");
+div.className="section-content";
+
+content.forEach(item=>{
+if(item.type==="text"){
+const p=document.createElement("p");
+p.textContent=item.content;
+div.appendChild(p);
+}
+if(item.type==="image"){
+const img=document.createElement("img");
+img.src=item.src;
+div.appendChild(img);
+}
+});
+
+section.appendChild(div);
+return section;
+}
+
+function createCodeBlock(text){
+const block=document.createElement("div");
+block.className="code-block";
+block.innerHTML=`
+<button class="copy-btn" onclick="copyText(this)">Copy</button>
+<pre>${text}</pre>
+`;
+return block;
+}
+
+function copyText(btn){
+const text=btn.nextElementSibling.innerText;
+navigator.clipboard.writeText(text);
+btn.innerText="Copied";
+setTimeout(()=>btn.innerText="Copy",1500);
+}
+
+function animatedIcon(){
+return `
+<svg width="24" height="24" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" stroke="#5d8cff" stroke-width="2" fill="none">
+<animate attributeName="stroke-dasharray" values="0,200;100,200;0,200" dur="3s" repeatCount="indefinite"/>
+</circle>
+</svg>
+`;
+}
+
+function backIcon(){
+return `
+<svg width="18" height="18" viewBox="0 0 24 24">
+<path d="M15 18l-6-6 6-6" stroke="#5d8cff" stroke-width="2" fill="none"/>
+</svg>
+`;
+}
+
+renderHome();
+
+</script>
+
+</body>
+</html>
