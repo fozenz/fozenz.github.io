@@ -183,13 +183,22 @@ main{padding:1rem}
 
 <script>
 
+const categoryColors = {
+  "Web": "#3b82f6",
+  "Pwn": "#ef4444",
+  "Crypto": "#a855f7",
+  "Reverse": "#22c55e",
+  "Forensics": "#eab308",
+  "Misc": "#ec4899",
+  "OSINT": "#06b6d4"
+};
 const data=[
 {
 name:"0xFUN CTF 2026",
 writeups:[
 {
 title:"Guess The Seed",
-category:"Reverse Engineering",
+category:"OSINT",
 description:[
 {type:"text",content:"I've created the ultimate number guessing game! No body can guess my completely unpredictable numbers. If you can somehow beat these mathematical odds and guess all 5 numbers correctly. I'll give you the flag. Do you think you can predict the unpredictable?"}
 ],
@@ -240,7 +249,9 @@ card.className="card";
 card.innerHTML=`
 <div class="card-title">
 ${w.title}
-<span class="badge">${w.category}</span>
+<span class="badge" style="background:${categoryColors[w.category] || '#5d8cff'}">
+  ${w.category}
+</span>
 </div>
 ${animatedIcon()}
 `;
