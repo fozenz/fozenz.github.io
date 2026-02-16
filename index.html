@@ -222,6 +222,28 @@ print(num5 % 1000)`,
 flag:"0xfun{W3l1_7h4t_w4S_Fun_4235328752619125}"
 }
 ]
+},
+{
+name:"THM CTF Try Out",
+writeups:[
+{
+title:"LootStash",
+category:"Reverse",
+description:[
+{type:"text",content:"A giant stash of powerful weapons and gear have been dropped into the arena - but there's one item you have in mind. Can you filter through the stack to get to the one thing you really need?"}
+],
+solution:[
+{type:"text",content:"When I Run The Program It Give Me Differend String Every Time So I Thought It Is Random Like What He Said In The Description."},
+{type:"image",src:"HTB/rev_lootstash/run.png"},
+{type:"text",content:"When I Reverse The Program I Found That It Use rand() To Get Random Number And Then It Makes Some Mathematical Operations On It And Put The Number Makes It An Index For The List Called gear."},
+{type:"image",src:"HTB/rev_lootstash/main.png"},
+{type:"text",content:"The important thing is that he said one of the items on this list was important, so I went to look for it and indeed I found the flag there."},
+{type:"image",src:"HTB/rev_lootstash/flag.png"}
+],
+code:`Nothing`,
+flag:"HTB{n33dl3_1n_a_l00t_stack}"
+}
+]
 }
 ];
 
