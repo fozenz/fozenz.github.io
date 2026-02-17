@@ -242,9 +242,53 @@ solution:[
 ],
 code:`Nothing`,
 flag:"HTB{n33dl3_1n_a_l00t_stack}"
+},
+{
+title:"FlagCasino",
+category:"Reverse",
+description:[
+{type:"text",content:"The team stumbles into a long-abandoned casino. As you enter, the lights and music whir to life, and a staff of robots begin moving around and offering games, while skeletons of prewar patrons are slumped at slot machines. A robotic dealer waves you over and promises great wealth if you can win - can you beat the house and gather funds for the mission?"}
+],
+solution:[
+{type:"text",content:"First I Run The Program And I See That It Want A Password So I Knew That The Password Located Someware In the Program's Code."},
+{type:"image",src:"HTB/rev_flagcasino/run.png"},
+{type:"text",content:"I Found That It Get The String From Me Then Get Put The Unicode For Each Letter To srand() Function. Then He Check If The Rand() Equals The One In The List Called check. So The Correct Char Will Be The Correct Unicode That We Put In Te Program, The Pass Is The Flag."},
+{type:"image",src:"HTB/rev_flagcasino/code.png"},
+{type:"image",src:"HTB/rev_flagcasino/list.png"},
+{type:"text",content:"So We Will Make A C Code That Brute Forcing The Seed (Unicode). The Code Will Git each rand() In The List check And Check It With The rand That Makes From Brute Forcing The Seed, If It Equals The Seed Will Be The correct Unicode And We Can Git The Char And So."},
+{type:"image",src:"HTB/rev_flagcasino/exploit.png"}
+],
+code:`#include <stdio.h>
+#include <stdlib.h>
+
+
+unsigned int data[29] = {608905406, 183990277, 286129175, 128959393, 1795081523,
+  1322670498, 868603056, 677741240, 1127757600, 89789692,
+  421093279, 1127757600, 1662292864, 1633333913, 1795081523,
+  1819267000, 1127757600, 255697463, 1795081523, 1633333913,
+  677741240, 89789692, 988039572, 114810857, 1322670498,
+  214780621, 1473834340, 1633333913, 585743402};
+  
+int main(){
+	
+	for(int i = 0; i < 29; ++i){
+		
+		for(int x = 0; x < 256; ++x){
+			
+			srand(x);
+			if (rand() == data[i]){
+				
+				printf("%c", (char)x);
+			}
+		}
+	}
+	return 0;
 }
-]
+`,
+flag:"HTB{r4nd_1s_v3ry_pr3d1ct4bl3}"
 }
+],
+},
 ];
 
 const app=document.getElementById("app");
