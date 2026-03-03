@@ -447,6 +447,52 @@ flag:"HTB{d0nt_p4n1c_c4tch_the_3rror}"
 ],
 },
 {
+name:"picoCTF",
+writeups:[
+{
+title:"Picker",
+category:"Reverse",
+description:[
+{type:"text",content:"Reverse this linux executable?"}
+],
+solution:[
+{type:"text",content:"When I Open The Program In IDA I See Than It Incomprehensible So I Was Thinking That It Is Maypbe Packed And It Is"},
+{type:"image",src:"picoCTF/Picker/packer.png"},
+{type:"text",content:"So I Packed It"},
+{type:"image",src:"picoCTF/Picker/unpacking.png"},
+{type:"text",content:"When I Opened Again I Found The Flag In Hexadecimal In The Main Function So I Just Need To Convert It To ASCII To Get The Flag."},
+{type:"image",src:"picoCTF/Picker/hex_flag.png"},
+],
+code:`NO CODE FOR THIS CHALLENGE`,
+flag:"picoCTF{U9X_UnP4ck1N6_B1n4Ri3S_6ff964ef}"
+},
+{
+title:"Picker-1",
+category:"Reverse",
+lang:"python",
+description:[
+{type:"text",content:"This service can provide you with a random number, but can it do anything else? Additional details will be available after launching your challenge instance."}
+],
+solution:[
+{type:"text",content:"He Give Me A Instance And Python File So I Open The Python File And Found That It Make Me Call A functoin And I Will The THe Output Of It In The Instance."},
+{type:"image",src:"picoCTF/Picker-1/eval_com.png"},
+{type:"text",content:"I Found A Function Called win() It Reverse The Flag But In Hexadecimal."},
+{type:"image",src:"picoCTF/Picker-1/win_func.png"},
+{type:"image",src:"picoCTF/Picker-1/hex_flag.png"},
+{type:"text",content:"So I Take Hex Values And Make A Loop That Return It To Characters Again."},
+],
+code:`flag = [0x70, 0x69, 0x63, 0x6f, 0x43, 0x54, 0x46, 0x7b, 0x34, 0x5f, 0x64, 0x31, 0x34, 0x6d, 0x30, 0x6e, 0x64, 0x5f, 0x31, 0x6e, 0x5f, 0x37, 0x68, 0x33, 0x5f, 0x72, 0x30, 0x75, 0x67, 0x68, 0x5f, 0x36, 0x65, 0x30, 0x34, 0x34, 0x34, 0x30, 0x64, 0x7d]
+
+for i in range(len(flag)) :
+
+  flag[i] = chr(flag[i])
+
+print(''.join(flag))`,
+flag:"picoCTF{4_d14m0nd_1n_7h3_r0ugh_6e04440d}"
+}
+],
+},
+{
 name:"0xmr.org CTF",
 writeups:[
 {
