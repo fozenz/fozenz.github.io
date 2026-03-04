@@ -176,6 +176,11 @@ border:1px solid var(--border);
     to { background-position: 200% center; }
 }
 
+.badge.difficulty {
+    background: transparent;
+    border: 1px solid currentColor;
+}
+
 .copy-btn{
 position:absolute;
 top:8px;
@@ -306,6 +311,11 @@ const categoryColors = {
   "Misc": "#ec4899",
   "OSINT": "#06b6d4"
 };
+const difficultyColors = {
+  "Easy": "#22c55e",      // green
+  "Medium": "#f59e0b",    // orange
+  "Hard": "#ef4444"       // red
+};
 const data=[
 {
 name:"0xFUN CTF 2026",
@@ -313,6 +323,7 @@ writeups:[
 {
 title:"Guess The Seed",
 category:"Reverse",
+difficulty: "Medium",
 lang:"python",
 description:[
 {type:"text",content:"I've created the ultimate number guessing game! No body can guess my completely unpredictable numbers. If you can somehow beat these mathematical odds and guess all 5 numbers correctly. I'll give you the flag. Do you think you can predict the unpredictable?"}
@@ -344,6 +355,7 @@ writeups:[
 {
 title:"LootStash",
 category:"Reverse",
+difficulty: "Easy",
 description:[
 {type:"text",content:"A giant stash of powerful weapons and gear have been dropped into the arena - but there's one item you have in mind. Can you filter through the stack to get to the one thing you really need?"}
 ],
@@ -361,6 +373,7 @@ flag:"HTB{n33dl3_1n_a_l00t_stack}"
 {
 title:"FlagCasino",
 category:"Reverse",
+difficulty: "Easy",
 lang:"c",
 description:[
 {type:"text",content:"The team stumbles into a long-abandoned casino. As you enter, the lights and music whir to life, and a staff of robots begin moving around and offering games, while skeletons of prewar patrons are slumped at slot machines. A robotic dealer waves you over and promises great wealth if you can win - can you beat the house and gather funds for the mission?"}
@@ -406,6 +419,7 @@ flag:"HTB{r4nd_1s_v3ry_pr3d1ct4bl3}"
 {
 title:"Don't Panic!",
 category:"Reverse",
+difficulty: "Medium",
 description:[
 {type:"text",content:"You've cut a deal with the Brotherhood; if you can locate and retrieve their stolen weapons cache, they'll provide you with the kerosene needed for your makeshift explosives for the underground tunnel excavation.\
 The team has tracked the unique energy signature of the weapons to a small vault, currently being occupied by a gang of raiders who infiltrated the outpost by impersonating commonwealth traders.\
@@ -452,6 +466,7 @@ writeups:[
 {
 title:"Picker",
 category:"Reverse",
+difficulty: "Medium",
 description:[
 {type:"text",content:"Reverse this linux executable?"}
 ],
@@ -467,8 +482,9 @@ code:`NO CODE FOR THIS CHALLENGE`,
 flag:"picoCTF{U9X_UnP4ck1N6_B1n4Ri3S_6ff964ef}"
 },
 {
-title:"Picker-1",
+title:"Picker I",
 category:"Reverse",
+difficulty: "Medium",
 lang:"python",
 description:[
 {type:"text",content:"This service can provide you with a random number, but can it do anything else? Additional details will be available after launching your challenge instance."}
@@ -489,6 +505,50 @@ for i in range(len(flag)) :
 
 print(''.join(flag))`,
 flag:"picoCTF{4_d14m0nd_1n_7h3_r0ugh_6e04440d}"
+},
+{
+title:"Picker II",
+category:"Reverse",
+difficulty: "Medium",
+lang:"python",
+description:[
+{type:"text",content:"Can you figure out how this program works to get the flag? Additional details will be available after launching your challenge instance."}
+],
+solution:[
+{type:"text",content:"In This Challenge He Put New Function In The Python File Called fiilter()."},
+{type:"image",src:"picoCTF/Picker-2/filter_func.png"},
+{type:"text",content:"It Filter The Input That I Put In The Program And If It Is Have \"win\" It Will Return False And If It Is Correct It Will Return True So I Just Need To Put A Command That Print The Flag With Out Call A \"win\" Function"},
+{type:"image",src:"picoCTF/Picker-2/flag.png"},
+],
+code:`print(open('flag.txt', 'r').read())`,
+flag:"picoCTF{f1l73r5_f41l_c0d3_r3f4c70r_m1gh7_5ucc33d_b924e8e5}"
+},
+{
+title:"Picker III",
+category:"Reverse",
+difficulty: "Medium",
+lang:"python",
+description:[
+{type:"text",content:"Can you figure out how this program works to get the flag? Additional details will be available after launching your challenge instance."}
+],
+solution:[
+{type:"text",content:"In This Challenge He Made A Program That Have Options To Choose From Them, When I See The Python Code I Found Variable Called \"func_table\" Have Four Options  And Spaces Between Them. It Must Be 128 Bytes Long."},
+{type:"image",src:"picoCTF/Picker-3/lenth_verify.png"},
+{type:"text",content:"So I Use \"write_variable\" Option To Modify The \"func_table\" Variable And Put The Name Of The Function That Print The Flag In It So When I Call The Option That Execute The Function It Will Execute The Function That Print The Flag."},
+{type:"image",src:"picoCTF/Picker-3/write_func.png"},
+{type:"text",content:"When I Call The Option That Execute The Function It Will Print The Hex Flag Then I will Convert It To ASCII."},
+{type:"image",src:"picoCTF/Picker-3/flag.png"},
+],
+code:`
+flag = [0x70, 0x69, 0x63, 0x6f, 0x43, 0x54, 0x46, 0x7b, 0x37, 0x68, 0x31, 0x35, 0x5f, 0x31, 0x35, 0x5f, 0x77, 0x68, 0x34, 0x37, 0x5f, 0x77, 0x33, 0x5f, 0x67, 0x33, 0x37, 0x5f, 0x77, 0x31, 0x37, 0x68, 0x5f, 0x75, 0x35, 0x33, 0x72, 0x35, 0x5f, 0x31, 0x6e, 0x5f, 0x63, 0x68, 0x34, 0x72, 0x67, 0x33, 0x5f, 0x63, 0x32, 0x30, 0x66, 0x35, 0x32, 0x32, 0x32, 0x7d]
+
+str_flag= ''
+for i in flag:
+
+  str_flag += chr(i)
+
+print(str_flag)`,
+flag:"picoCTF{7h15_15_wh47_w3_g37_w17h_u53r5_1n_ch4rg3_c20f5222}"
 }
 ],
 },
@@ -498,6 +558,7 @@ writeups:[
 {
 title:"ShadowLoader",
 category:"Reverse",
+difficulty: "Hard",
 lang:"python",
 description:[
 
@@ -629,6 +690,11 @@ card.innerHTML=`
 ${w.title}
 <span class="badge" style="background:${categoryColors[w.category] || '#5d8cff'}">
   ${w.category}
+</span>
+
+<span class="badge difficulty" 
+      style="color:${difficultyColors[w.difficulty] || '#64748b'}">
+  ${w.difficulty}
 </span>
 </div>
 ${animatedIcon()}
