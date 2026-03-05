@@ -549,6 +549,58 @@ for i in flag:
 
 print(str_flag)`,
 flag:"picoCTF{7h15_15_wh47_w3_g37_w17h_u53r5_1n_ch4rg3_c20f5222}"
+},
+{
+title:"Tap into Hash",
+category:"Reverse",
+difficulty: "Medium",
+lang:"python",
+description:[
+{type:"text",content:"Can you make sense of this source code file and write a function that will decode the given encrypted file content? Find the encrypted file here. It might be good to analyze source file to get the flag."}
+],
+solution:[
+{type:"text",content:"In This Challenge We Are Given A Python File And Encrypted File Content. When I Look To The Python File I Go Directly To The Main Function And I Started To Analyze It From The End Because We Want To Reverse The Encryption Process To Get The Flag."},
+{type:"image",src:"picoCTF/Tap_into_Hash/main_func.png"},
+{type:"text",content:"So The Main Function Just Call The Encrypt Function Called \"encrypt\" With Three Arguments. The First Part Of The Encrypt Function Is Just Put A Text In The Middle Of The Plaintext And Hash The Key With SHA256 To Get A 32 Byte Key.  The Pad Is Not Important In This Case."},
+{type:"image",src:"picoCTF/Tap_into_Hash/enc_func1.png"},
+{type:"text",content:"The Secont Part Of The Encrypt Function Is To Xor Each Block With The Hash Key, Each Block Is 16 Byte."},
+{type:"image",src:"picoCTF/Tap_into_Hash/enc_func2.png"},
+{type:"text",content:" So I Just Want To Reverse This Xor Function And Git The Plain text. And That Is !"},
+{type:"image",src:"picoCTF/Tap_into_Hash/flag.png"},
+],
+code:`
+import hashlib
+
+Key = b'\\x8b\\x9a\\x00G\\xfe\\xb3\\xf3\\x93\\xdb\\xa8yT\\xfe\\x15\\x87a\\xf4\\xdf\\x00\\x8d\\xee\\xab\\xd9\\t^|\\x04(%\\x81\\x9e\\xf8'
+Enc_Blockchain = b'Z5Wo\\xe9\\xbd\\xf4\\xed<\\xeb=\\xcb%\\xc4\\xf0>S2\\x0bl\\xe9\\xe9\\xf0\\xe8>\\xe8n\\x91q\\xca\\xad=\\x01fRo\\xbe\\xba\\xa2\\xb5f\\xb88\\x90t\\xc4\\xaco\\x041\\x01n\\xb3\\xbd\\xa1\\xb4l\\xee9\\xc9u\\x9e\\xf1:O0\\x035\\xed\\xeb\\xf6\\xean\\xbei\\xcc.\\x9f\\xfe8\\x008\\x04l\\xef\\xee\\xf4\\xe9g\\xbf8\\x9bt\\x9f\\xaanZ6\\x0b8\\xef\\xbb\\xa6\\xb8>\\xe9n\\xcd$\\xc5\\xf08\\x00eQ>\\xef\\xed\\xf4\\xeaf\\xbdm\\x9e \\xcb\\xfe9\\x07-\\x03=\\xba\\xb9\\xa2\\xbcl\\xb4:\\x9c&\\x9e\\xab8U4\\x05=\\xe8\\xec\\xa4\\xeao\\xefk\\x9c#\\x9a\\xacn\\x00bCd\\xe8\\xb7\\xd6\\xd8\\x19\\xf69\\xc4x\\x9f\\xa2UQSae\\xdd\\xb1\\xc7\\xee\\x0b\\xbc*\\xcbO\\xa3\\x91_\\x08M\\x03\\x7f\\xbf\\xe1\\xf6\\xc4\\x00\\xfc\\x18\\xd2z\\xb6\\x93p Kl;\\xbb\\xee\\xa1\\xbb9\\xef9\\xd5t\\x99\\xf9;Ve\\x04i\\xb3\\xe9\\xf3\\xbd;\\xb8m\\x91s\\xcf\\xff:\\x019\\x04=\\xbd\\xb9\\xa4\\xeff\\xb5>\\xcd:\\xcc\\xf9<Ta\\x01?\\xbd\\xe9\\xf0\\xed=\\xefi\\x9fr\\x98\\xf8=[a\\x00:\\xbc\\xba\\xf3\\xe9k\\xeci\\x90"\\x98\\xfbnZaPk\\xed\\xe9\\xa6\\xbf=\\xe8>\\x99.\\xc5\\xac?Wa\\x02<\\xbd\\xb9\\xa0\\xeaj\\xecn\\x9b$\\xd1\\xf9:\\x04dR:\\xb9\\xea\\xa3\\xedi\\xebh\\x9d\\'\\xcc\\xfah\\x008U9\\xe8\\xe8\\xf6\\xba>\\xefk\\x98#\\xce\\xfb;\\x038\\n?\\xea\\xb9\\xf7\\xbfg\\xbbk\\x90q\\x9e\\xacn[f\\x06l\\xef\\xbb\\xa7\\xbaf\\xbd9\\x9a"\\xcf\\xcb\\x08'
+
+block_size = 16
+
+
+def decrypt(enc_bc, key):
+
+  unciphertext = b''
+
+  key_hash = hashlib.sha256(key).digest()
+
+  for i in range(0, len(Enc_Blockchain), block_size):
+
+    block = Enc_Blockchain[i:i + block_size]
+
+    dec_block = xor_bytes(block, key_hash)
+
+    unciphertext += dec_block
+
+  return unciphertext
+
+
+def xor_bytes(block, Key):
+
+  return bytes(x ^ y for x,y in zip(block, Key))
+
+
+print(decrypt(Enc_Blockchain, Key))`,
+flag:"picoCTF{block_3SRhViRbT1qcX_XUjM0r49cH_qCzmJZzBK_60647fbb}"
 }
 ],
 },
@@ -746,20 +798,28 @@ section.appendChild(div);
 return section;
 }
 
-function createCodeBlock(text, lang="python"){
+function createCodeBlock(text, lang = "python") {
+
     const block = document.createElement("div");
     block.className = "code-block";
 
     const button = document.createElement("button");
     button.className = "copy-btn";
     button.innerText = "Copy";
-    button.onclick = function(){ copyText(this); };
+
+    button.onclick = () => {
+        navigator.clipboard.writeText(text);
+        button.innerText = "Copied!";
+        setTimeout(() => button.innerText = "Copy", 1200);
+    };
 
     const pre = document.createElement("pre");
     const code = document.createElement("code");
 
     code.className = "language-" + lang;
-    code.textContent = text;
+
+    /* IMPORTANT */
+    code.textContent = text.trim();
 
     pre.appendChild(code);
     block.appendChild(button);
