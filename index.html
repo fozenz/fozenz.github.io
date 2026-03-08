@@ -601,7 +601,56 @@ def xor_bytes(block, Key):
 
 print(decrypt(Enc_Blockchain, Key))`,
 flag:"picoCTF{block_3SRhViRbT1qcX_XUjM0r49cH_qCzmJZzBK_60647fbb}"
-}
+},
+{
+title:"Classic Crackme 0x100",
+category:"Reverse",
+difficulty: "Medium",
+lang:"python",
+description:[
+{type:"text",content:"A classic Crackme. Find the password, get the flag! Binary can be downloaded here. Crack the Binary file locally and recover the password. Use the same password on the server to get the flag! Additional details will be available after launching your challenge instance."}
+],
+solution:[
+{type:"text",content:"In This Challenge We Are Given A Binary File, I Run The Instance To Know What It Do. It As Me For A Password And If I Put The Correct Password It Will Print The Flag. So I Open The Binary In IDA And I Found That It Take A String From Me And Make Some Mathematical Operations On It To Make It Like The Data That It Put."},
+{type:"image",src:"picoCTF/Classic_Crackme_0x100/data.png"},
+{type:"text",content:"When I See The Code I Found That It Make A Loop For 3 Times And Each Time It Take The Result Of The Last Loop And Make The Loop On It Again, So I Just Need To Reverse The Loop To Get The Input (Password) That I Put In The Program And That Is The Flag."},
+{type:"image",src:"picoCTF/Classic_Crackme_0x100/encryption.png"},
+{type:"text",content:"I Make A Python Code That Reverse The Loop And Get The Input That I Put In The Program And That Is The Flag."},
+{type:"image",src:"picoCTF/Classic_Crackme_0x100/flag.png"},
+
+],
+code:`
+data = "apijaczhzgtfnyjgrdvqrjbmcurcmjczsvbwgdelvxxxjkyigy"
+
+datalen = len(data)
+v11 = 85
+v10 = 51
+v9 = 15
+v8 = 97
+
+
+for _ in range(3) :
+
+  result = ""
+
+  for i in range(datalen):
+  
+    v7 = (v11 & (i % 255)) + (v11 & ((i % 255) >> 1))
+
+    v6 = (v7 & v10) + (v10 & (v7 >> 2))
+
+    shift = (v6 & v9) + (v9 & (v6 >> 4))
+
+    # I Reverse This Line To Git The Input
+    c = ((ord(data[i]) - v8 - shift) % 26) + v8
+
+    result += chr(c)
+
+  data = result
+
+print(data)`,
+flag:"picoCTF{s0lv3_angry_symb0ls_e1ad09b7}"
+},
 ],
 },
 {
